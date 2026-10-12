@@ -595,7 +595,7 @@ def test_cart_method_floatingpoint_error():
     See #289
     """
     x = pd.DataFrame({
-        "x1": [1, 2, 3, 4, 5]
+        "x1": [1, 2, 3, 4, 5],
     })
     y = pd.Series([0.1, 1.1, 2.1, 3.3, 5.5])
 
