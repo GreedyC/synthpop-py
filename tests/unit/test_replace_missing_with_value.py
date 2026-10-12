@@ -130,7 +130,7 @@ def test_prepare_data_for_fit_numeric_correctness(X_in, y_in, y_exp, missing_ind
     assert X_res is X_in
     assert np.array_equal(y_exp, y_res, equal_nan=True)
     assert y_exp.dtype == y_res.dtype
-    assert replace_nan.dtype_ == y_in.dtype
+    assert replace_nan.target_dtype_ == y_in.dtype
 
 
 def test_prepare_data_for_fit_does_not_change_arguments():
@@ -174,7 +174,7 @@ def test_post_synth_transform_correct_on_data(x, y_in, y_exp, missing_marker):
     else:
         transform = ReplaceMissingWithValue(missing_marker=missing_marker)
 
-    transform.dtype_ = y_exp.dtype
+    transform.target_dtype_ = y_exp.dtype
     y_res = transform.post_synth_transform(x, y_in)
     assert np.array_equal(y_res, y_exp, equal_nan=True)
     assert y_res.dtype == y_exp.dtype
@@ -185,7 +185,7 @@ def test_post_synth_transform_replaces_nan():
     y = np.array(["a", "b", "N.a.N."], dtype=str_dtype)
 
     replace_nan = ReplaceMissingWithValue()
-    replace_nan.dtype_ = y.dtype
+    replace_nan.target_dtype_ = y.dtype
 
     result = replace_nan.post_synth_transform(X, y)
     assert result[0] == "a"
@@ -198,7 +198,7 @@ def test_post_synth_transform_does_nothing_when_no_nan():
     y = np.array(["a", "b"], dtype=str_dtype)
 
     replace_nan = ReplaceMissingWithValue()
-    replace_nan.dtype_ = y.dtype
+    replace_nan.target_dtype_ = y.dtype
 
     result = replace_nan.post_synth_transform(X, y)
     assert (result == y).all()
