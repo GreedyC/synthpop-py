@@ -100,19 +100,18 @@ def get_post_synth_test_data():
             for not_missing in ["not missing", "missing", "Nan", "None"]] + \
         [
             (
-                np.array([1,2,3,-8,5]),
-                np.array([1,2,3,np.nan,5], dtype=dtype_y),
+                np.array([1, 2, 3, -8, 5]),
+                np.array([1, 2, 3, np.nan, 5], dtype=dtype_y),
                 -8,
             )
-        for dtype_y in [np.float32, np.float64] ] + \
+        for dtype_y in [np.float32, np.float64]] + \
         [
             (
-                np.array([1,2,3,4,5]),
-                np.array([1,2,3,4,5], dtype=dtype_y),
+                np.array([1, 2, 3, 4, 5]),
+                np.array([1, 2, 3, 4, 5], dtype=dtype_y),
                 -8,
             )
-            for dtype_y in [np.int64,np.int32,np.float32, np.float64] ]
-            
+            for dtype_y in [np.int64, np.int32, np.float32, np.float64]]
 
     return [(x_values, *y_val) for y_val in y_values_np_array]
 
@@ -121,8 +120,8 @@ def get_post_synth_test_data():
 
 
 @pytest.mark.parametrize(
-        "X_in, y_in, y_exp, missing_indicator",
-        get_test_data()
+    "X_in, y_in, y_exp, missing_indicator",
+    get_test_data()
 )
 def test_prepare_data_for_fit_numeric_correctness(X_in, y_in, y_exp, missing_indicator):
     replace_nan = ReplaceMissingWithValue(missing_marker=missing_indicator)
@@ -197,7 +196,6 @@ def test_post_synth_transform_replaces_nan():
 def test_post_synth_transform_does_nothing_when_no_nan():
     X = np.array([1, 2])  # X is used for the validation of y
     y = np.array(["a", "b"], dtype=str_dtype)
-    
 
     replace_nan = ReplaceMissingWithValue()
     replace_nan.dtype_ = y.dtype

@@ -310,6 +310,7 @@ def test_post_synth_all_missing(y, predictor):
     assert np.all(np.isnan(out))
     assert out.dtype == np.float64
 
+
 @pytest.mark.parametrize(
     "y",
     [
@@ -333,6 +334,7 @@ def test_post_synth_no_missing(y, predictor):
 
     assert np.array_equal(out, y)
     assert out.dtype == y.dtype
+
 
 @pytest.mark.parametrize(
     "y",
@@ -383,8 +385,9 @@ def test_post_synth_transform_dataflow(y, predictor, stub_tree, stub_sampler, st
     ), "Sampler must receive tree.apply output as leaf IDs."
     assert np.array_equal(np.isnan(out), predictor.tree_sampler_.sample_return)
 
-@pytest.mark.parametrize("dtype_y",[np.int64,np.float64,np.float32])
-def test_post_synth_transform_restores_non_null_dtype(dtype_y,predictor, stub_tree, stub_sampler):
+
+@pytest.mark.parametrize("dtype_y", [np.int64, np.float64, np.float32])
+def test_post_synth_transform_restores_non_null_dtype(dtype_y, predictor, stub_tree, stub_sampler):
     predictor.tree_ = stub_tree
     predictor.tree_sampler_ = stub_sampler
     predictor.tree_sampler_.sample_return = np.array(
@@ -396,16 +399,17 @@ def test_post_synth_transform_restores_non_null_dtype(dtype_y,predictor, stub_tr
     predictor.feature_order_ = ["a",]
     predictor.target_dtype_ = dtype_y
 
-    y = np.array([1,2,3,4],dtype=dtype_y)
+    y = np.array([1, 2, 3, 4], dtype=dtype_y)
 
     X = {"a": np.array([1, 2, 3, 4])}
-    
+
     out = predictor.post_synth_transform(X, y)
 
     assert out.dtype == dtype_y
 
-@pytest.mark.parametrize("dtype_y",[np.float64,np.float32])
-def test_post_synth_transform_restores_null_dtype(dtype_y,predictor, stub_tree, stub_sampler):
+
+@pytest.mark.parametrize("dtype_y", [np.float64, np.float32])
+def test_post_synth_transform_restores_null_dtype(dtype_y, predictor, stub_tree, stub_sampler):
     predictor.tree_ = stub_tree
     predictor.tree_sampler_ = stub_sampler
     predictor.tree_sampler_.sample_return = np.array(
@@ -417,20 +421,20 @@ def test_post_synth_transform_restores_null_dtype(dtype_y,predictor, stub_tree, 
     predictor.feature_order_ = ["a",]
     predictor.target_dtype_ = dtype_y
 
-    y = np.array([1,2,3,4])
+    y = np.array([1, 2, 3, 4])
 
     X = {"a": np.array([1, 2, 3, 4])}
-    
+
     out = predictor.post_synth_transform(X, y)
 
     assert out.dtype == dtype_y
-
 
 
 def test_post_synth_transform_raises_unfitted():
     model = MissingValuePredictor()
     with pytest.raises(NotFittedError):
         model.post_synth_transform({"a": np.array([1])}, np.array([1]))
+
 
 @pytest.mark.parametrize(
     "y",
