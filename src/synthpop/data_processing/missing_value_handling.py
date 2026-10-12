@@ -138,7 +138,7 @@ class MissingValuePredictor(BaseMissingValueHandler):
         """
         # input validation
         X_val, n_samples = _validate_2d_dict(X)
-        self.dtype_ = y.dtype
+        self.target_dtype_ = y.dtype
         y_val = _validate_1d_target(y, n_samples)
 
         self.feature_order_ = list(X_val.keys())
@@ -238,7 +238,7 @@ class MissingValuePredictor(BaseMissingValueHandler):
         missing_mask = self.tree_sampler_.sample_from_leaves(leaf_ids)
         missing_mask = np.asarray(missing_mask).astype(bool)
 
-        y_out = np.array(y_val, copy=True, dtype=self.dtype_)
+        y_out = np.array(y_val, copy=True, dtype=self.target_dtype_)
         if missing_mask.any():
             y_out[missing_mask] = np.nan
 
