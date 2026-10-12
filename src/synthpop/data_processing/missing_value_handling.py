@@ -315,7 +315,7 @@ class ReplaceMissingWithValue(BaseMissingValueHandler):
         """
 
         n_samples = X[next(iter(X))].shape[0]
-        self.dtype_ = y.dtype
+        self.target_dtype_ = y.dtype
         y_val = _validate_1d_target(y.copy(), n_samples)
 
         missing_mask = pd.isna(y_val)
@@ -341,7 +341,7 @@ class ReplaceMissingWithValue(BaseMissingValueHandler):
         y_val = np.array(
             _validate_1d_target(y, None),
             copy=True,
-            dtype=self.dtype_,
+            dtype=self.target_dtype_,
         )
 
         missing_mask = y_val == self.missing_marker

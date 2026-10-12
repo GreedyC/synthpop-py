@@ -604,4 +604,4 @@ def test_cart_method_floatingpoint_error():
 
     # fails due to floating point problems:
     # assert {1.100000023841858, 2.0999999046325684, 3.299999952316284, 5.5} in {0.1, 1.1, 2.1, 3.3, 5.5}
-    assert len(set(result)-set(y)) == 0
+    assert len(set(result) - set(y)) == 0

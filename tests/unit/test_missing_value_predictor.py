@@ -396,7 +396,7 @@ def test_post_synth_transform_restores_non_null_dtype(dtype_y, predictor, stub_t
     predictor._none_missing = False
 
     predictor.encoders_ = {}
-    predictor.feature_order_ = ["a",]
+    predictor.feature_order_ = ["a"]
     predictor.target_dtype_ = dtype_y
 
     y = np.array([1, 2, 3, 4], dtype=dtype_y)
@@ -418,7 +418,7 @@ def test_post_synth_transform_restores_null_dtype(dtype_y, predictor, stub_tree,
     predictor._none_missing = False
 
     predictor.encoders_ = {}
-    predictor.feature_order_ = ["a",]
+    predictor.feature_order_ = ["a"]
     predictor.target_dtype_ = dtype_y
 
     y = np.array([1, 2, 3, 4])
