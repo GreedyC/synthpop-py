@@ -101,8 +101,8 @@ def _validate_1d_target(y: npt.NDArray, n_samples: int | None) -> npt.NDArray:
 def _standardise_array_dtypes(X: npt.ArrayLike) -> npt.NDArray:
     """
     Helper to standardise a 1D or 2D array-like object to either:
-    - numeric numpy dtype for numeric data.
-    - `StringDType(na_object = np.nan)` for non-numeric data
+    - numeric numpy dtype for numeric data (e.g. float32).
+    - `StringDType(na_object = np.nan)` for non-numeric data.
 
     Missing values are normalised to `np.nan`.
     """

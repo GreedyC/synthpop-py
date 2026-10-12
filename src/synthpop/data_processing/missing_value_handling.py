@@ -338,8 +338,11 @@ class ReplaceMissingWithValue(BaseMissingValueHandler):
         :return:  The synthesised target with missing values.
         """
 
-        y_val = np.array(_validate_1d_target(y, None),
-                         copy=True, dtype=self.dtype_)
+        y_val = np.array(
+            _validate_1d_target(y, None),
+            copy=True,
+            dtype=self.dtype_,
+        )
 
         missing_mask = y_val == self.missing_marker
 

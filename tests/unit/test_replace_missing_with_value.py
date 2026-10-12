@@ -63,7 +63,7 @@ def get_test_data():
 
         (
             {"a": np.array(["a", "b", "a"], dtype=str_dtype)},
-            np.array([1,2, 3]),
+            np.array([1, 2, 3]),
             np.array([1, 2, 3], dtype=np.int64),
             -8,
         ),
