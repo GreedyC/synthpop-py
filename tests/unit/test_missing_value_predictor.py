@@ -332,7 +332,7 @@ def test_post_synth_no_missing(y, predictor):
     out = predictor.post_synth_transform(X, y)
 
     assert np.array_equal(out, y)
-    assert out.dtype==y.dtype
+    assert out.dtype == y.dtype
 
 @pytest.mark.parametrize(
     "y",
@@ -384,7 +384,7 @@ def test_post_synth_transform_dataflow(y, predictor, stub_tree, stub_sampler, st
     assert np.array_equal(np.isnan(out), predictor.tree_sampler_.sample_return)
 
 @pytest.mark.parametrize("dtype_y",[np.int64,np.float64,np.float32])
-def test_post_synth_transform_restores_non_null_dtype(dtype_y,predictor, stub_tree, stub_sampler, stub_encoder):
+def test_post_synth_transform_restores_non_null_dtype(dtype_y,predictor, stub_tree, stub_sampler):
     predictor.tree_ = stub_tree
     predictor.tree_sampler_ = stub_sampler
     predictor.tree_sampler_.sample_return = np.array(
@@ -405,7 +405,7 @@ def test_post_synth_transform_restores_non_null_dtype(dtype_y,predictor, stub_tr
     assert out.dtype == dtype_y
 
 @pytest.mark.parametrize("dtype_y",[np.float64,np.float32])
-def test_post_synth_transform_restores_null_dtype(dtype_y,predictor, stub_tree, stub_sampler, stub_encoder):
+def test_post_synth_transform_restores_null_dtype(dtype_y,predictor, stub_tree, stub_sampler):
     predictor.tree_ = stub_tree
     predictor.tree_sampler_ = stub_sampler
     predictor.tree_sampler_.sample_return = np.array(
