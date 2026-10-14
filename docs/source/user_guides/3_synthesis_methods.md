@@ -307,6 +307,7 @@ new_target_column
 0              <NA>
 1              <NA>
 2                 1
+Name: new_target_column, dtype: object
 ```
 
 Unlike `CartMethod`, `SampleMethod` does not require predictor data, so both `fit` and `transform` can receive `None` for the predictors. Here, `y` is the observed target column used to estimate the empirical distribution. After fitting, `transform(None)` generates synthetic values by sampling from that distribution.
@@ -441,6 +442,7 @@ new_target_column
 0             1
 1             2
 2             <NA>
+Name: new_target_column, dtype: object
 ```
 
 Here, `y` is the observed target column. `CopyMethod` does not require predictor data, so both `fit` and `transform` receive `None` for the predictors.
