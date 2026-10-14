@@ -90,15 +90,16 @@ For advanced use cases, `CartMethod` can also be used without the synthesis-meth
 
 ```python
 >>> from synthpop.methods import CartMethod
+>>> import pandas as pd
 
 >>> X = pd.DataFrame({'age': [20, 40, 60], 'profession': ['butler', 'cook', 'cook']})
->>> y = pd.Series([50.0, 60.0, 70.0], dtype='float32', name='length')
+>>> y = pd.Series([50.0, 60.0, 70.0], name='length')
 >>> method = CartMethod().fit(X, y)
 >>> method.transform(X)
 0    50.0
 1    70.0
 2    60.0
-Name: length, dtype: float32
+Name: length, dtype: float64
 ```    
 
 Here, `X` contains the predictor columns that have previously been synthesised, while `y` is the observed target column that the method learns to synthesise. After fitting, `transform(X)` generates values for that target column, based on the supplied predictors.

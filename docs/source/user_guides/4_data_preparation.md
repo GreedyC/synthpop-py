@@ -156,9 +156,10 @@ This separation allows synthpop-py to reproduce both the generated values and th
 For categorical synthesis, missing values in the target are transformed into a valid categorical state before tree training using {class}`~synthpop.data_processing.missing_value_handling.ReplaceMissingWithValue`.
 ```python
 >>> from synthpop.data_processing import ReplaceMissingWithValue
+>>> from synthpop.utils import str_dtype
 
->>> X = np.array(["a","b","c","c"], dtype=np.dtypes.StringDType(na_object=np.nan))
->>> y = np.array(["x","y",np.nan,"z"], dtype=np.dtypes.StringDType(na_object=np.nan))
+>>> X = {"column1":np.array(["a","b","c","c"])}
+>>> y = np.array(["x","y",np.nan,"z"], dtype=str_dtype)
 >>> replace_missing = ReplaceMissingWithValue()
 >>> x_res,y_res = replace_missing.prepare_data_for_fit(X,y)
 >>> y_res
