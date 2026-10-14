@@ -30,18 +30,18 @@ flowchart TD
 
       CMF --> CONV["Convert data representation<br/><br/>X:<br/>pd.DataFrame → Dict[str, np.ndarray]<br/><br/>y:<br/>pd.Series → np.ndarray"]
 
-      CONV --> TYPE{{"Target dtype"}}
+      CONV --> TYPE{{"Target dtype (t_dtype)"}}
 
-      TYPE -->|numeric| TR["TreeRegressorMethod.fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[float32]<br/>)"]
+      TYPE -->|numeric| TR["TreeRegressorMethod.fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[t_dtype]<br/>)"]
       TYPE -->|categorical| TC["TreeClassifierMethod.fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[str]<br/>)"]
 
       TR --> ENC_R{{"Loop through columns in X<br/>If column is non-numeric:<br/>fit MeanEncoder<br/><br/>If column is numeric:<br/>no encoder"}}
       TC --> ENC_C{{"Loop through columns in X<br/>If column is non-numeric:<br/>fit PCAEncoder<br/><br/>If column is numeric:<br/>no encoder"}}
 
-      ENC_R -->|Categorical X| ME["MeanEncoder.fit(<br/>X: np.ndarray[str],<br/>y: np.ndarray[float32]<br/>)"]
+      ENC_R -->|Categorical X| ME["MeanEncoder.fit(<br/>X: np.ndarray[str],<br/>y: np.ndarray[t_dtype]<br/>)"]
       ENC_C -->|Categorical X| PCA["PCAEncoder.fit(<br/>X: np.ndarray[str]<br/>y: np.ndarray[str]<br/>)"]
 
-      TR --> RMV["MissingValuePredictor.prepare_data_for_fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[float32]<br/>) <br/><br/>Output:<br/>X: Dict[str, np.ndarray] <br/>y: np.ndarray[float32]<br/>X and y without rows where y is missing<br/><br/>Fit missingness model"]
+      TR --> RMV["MissingValuePredictor.prepare_data_for_fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[t_dtype]<br/>) <br/><br/>Output:<br/>X: Dict[str, np.ndarray] <br/>y: np.ndarray[t_dtype]<br/>X and y without rows where y is missing<br/><br/>Fit missingness model"]
       TC --> RV["ReplaceMissingWithValue.prepare_data_for_fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[str]<br/>) <br/><br/>Output:<br/>X: Dict[str, np.ndarray]<br/>y: np.ndarray[str] (missing made a category)<br/><br/>Missing categories in y replaced by marker"]
 
       RMV -->|Continue with this output| LOOP_R{{"Loop through columns in X<br/><br/>If column is non-numeric:<br/>transform with MeanEncoder<br/><br/>If column is numeric:<br/>pass through unchanged"}}
@@ -61,14 +61,18 @@ flowchart TD
 
       MERGE_R --> FM_R["Convert feature dictionary to tree input matrix<br/><br/>Input:<br/>Dict[str, np.ndarray[float32]]<br/><br/>Output:<br/>np.ndarray[float32]<br/>shape: (n_samples, n_features)"]
       MERGE_C --> FM_C["Convert feature dictionary to tree input matrix<br/><br/>Input:<br/>Dict[str, np.ndarray[float32]]<br/><br/>Output:<br/>np.ndarray[float32]<br/>shape: (n_samples, n_features)"]
+      FM_R --> Y32["Convert y to float32"]
 
-      FM_R --> DTR["DecisionTreeRegressor.fit(<br/>X: np.ndarray[float32],<br/>y: np.ndarray[float32]<br/>)"]
+      Y32 --> DTR["DecisionTreeRegressor.fit(<br/>X: np.ndarray[float32],<br/>y: np.ndarray[float32]<br/>)"]
       FM_C --> DTC["DecisionTreeClassifier.fit(<br/>X: np.ndarray[float32],<br/>y: np.ndarray[str]<br/>)"]
 
       DTR --> DTRA["DecisionTreeRegressor.apply(<br/>X: np.ndarray[float32]<br/>)<br/><br/>leaf_ids: np.ndarray[int64]"]
       DTC --> DTCA["DecisionTreeClassifier.apply(<br/>X: np.ndarray[float32]<br/>)<br/><br/>leaf_ids: np.ndarray[int64]"]
 
-      DTRA --> LS1["LeafNodeSampler.fit_sampler(<br/>leaf_ids: np.ndarray[int64],<br/>y: np.ndarray[float32]<br/>)"]
+
+      DTRA --> LS1["LeafNodeSampler.fit_sampler(<br/>leaf_ids: np.ndarray[int64],<br/>y: np.ndarray[t_dtype]<br/>)"]
+      RMV --> |"y: np.ndarray[t_dtype]"|LS1
+
       DTCA --> LS2["LeafNodeSampler.fit_sampler(<br/>leaf_ids: np.ndarray[int64],<br/>y: np.ndarray[str]<br/>)"]
 
       LS1 --> FIT_R["TreeRegressorMethod fully fitted"]
