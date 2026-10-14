@@ -144,6 +144,26 @@ def test_prepare_data_for_fit_does_not_change_arguments():
     assert y_res[1] == "N.a.N."
 
 
+@pytest.mark.parametrize("X", [np.array([1, 2]), [1, 2], None])
+def test_prepare_data_for_fit_requires_dictionary(X):
+    with pytest.raises(TypeError, match="X must be a dictionary of column arrays"):
+        ReplaceMissingWithValue().prepare_data_for_fit(
+            X, np.array(["x", np.nan], dtype=str_dtype))
+
+
+def test_prepare_data_for_fit_requires_features():
+    with pytest.raises(ValueError, match="X must contain at least one feature"):
+        ReplaceMissingWithValue().prepare_data_for_fit(
+            {}, np.array(["x", np.nan], dtype=str_dtype))
+
+
+def test_prepare_data_for_fit_requires_consistent_feature_lengths():
+    with pytest.raises(ValueError, match="same number of samples"):
+        ReplaceMissingWithValue().prepare_data_for_fit(
+            {"a": np.array([1, 2]), "b": np.array([3])},
+            np.array(["x", np.nan], dtype=str_dtype))
+
+
 def test_prepare_data_for_fit_error_when_nan_is_a_value():
     X = {"a": np.array(["a", "b"], dtype=str_dtype)}
     y = np.array(["x", "N.a.N.", np.nan], dtype=str_dtype)
