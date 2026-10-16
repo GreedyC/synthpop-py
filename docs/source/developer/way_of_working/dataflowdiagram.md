@@ -5,7 +5,7 @@ This page provides a visual overview of how data moves through the Synthpop syst
 The diagrams illustrate key processes such as fitting a Synthesiser and generating synthetic data, including both numeric and categorical workflows.
 
 ## Overall process data flow
-The diagrams below show the data flow of using a Synthesiser with the default `CartMethod`. The function {func}`~synthpop.data_processing.missing_value_handling.MissingValuePredictor.fit` is abstracted to one step. For a detailed data flow of the `MissingValuePredictor`, see {ref}`its focus diagrams <mvp-diagram>`.
+The diagrams below show the data flow of using a Synthesiser with the default `CartMethod`. The function {func}`~synthpop.data_preparation.missing_value_handling.MissingValuePredictor.fit` is abstracted to one step. For a detailed data flow of the `MissingValuePredictor`, see {ref}`its focus diagrams <mvp-diagram>`.
 ### `Synthesiser.fit()` data flow
 
 <details open>
@@ -48,7 +48,7 @@ flowchart TD
 
       RMV -->|Continue with this output| LOOP_R{{"Loop through columns in X<br/><br/>If column is non-numeric:<br/>transform with MeanEncoder<br/><br/>If column is numeric:<br/>pass through unchanged"}}
       RV -->|Continue with this output| LOOP_C{{"Loop through columns in X<br/><br/>If column is non-numeric:<br/>transform with PCAEncoder<br/><br/>If column is numeric:<br/>pass through unchanged"}}
-           
+
       LOOP_R -->|Categorical X| APPLY_R["MeanEncoder.transform(<br/>X: np.ndarray[str]<br/>)<br/><br/>Output:<br/>X: np.ndarray[float32]<br/>(encoded)"]
       LOOP_C -->|Categorical X| APPLY_C["PCAEncoder.transform(<br/>X: np.ndarray[str]<br/>)<br/><br/>Output:<br/>X: np.ndarray[float32]<br/>(encoded)"]
 
@@ -161,7 +161,7 @@ flowchart TD
 
 (mvp-diagram)=
 ## Zoomed in: `MissingValuePredictor` flows
-Data flows for the {class}`~synthpop.data_processing.missing_value_handling.MissingValuePredictor` class.
+Data flows for the {class}`~synthpop.data_preparation.missing_value_handling.MissingValuePredictor` class.
 
 ### `MissingValuePredictor.prepare_data_for_fit()` flow
 
@@ -278,7 +278,7 @@ zoom:
 flowchart LR
       subgraph input
             FEATURES[("Observed data features<br/>X: pd.DataFrame<br/>Predictor columns")]
-      
+
             TARGET[("Observed target column<br/>y: pd.Series<br/>Numeric target to synthesise")]
       end
 
@@ -296,7 +296,7 @@ flowchart LR
       TR --> RMV["MissingValuePredictor.prepare_data_for_fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[t_dtype]<br/>) <br/><br/>Output:<br/>X: Dict[str, np.ndarray] <br/>y: np.ndarray[t_dtype]<br/>X and y without rows where y is missing<br/><br/>Fit missingness model"]
 
       RMV -->|Continue with this output| LOOP_R{{"Loop through columns in X<br/><br/>If column is non-numeric:<br/>transform with MeanEncoder<br/><br/>If column is numeric:<br/>pass through unchanged"}}
-      
+
       LOOP_R -->|Categorical X| APPLY_R["MeanEncoder.transform(<br/>X: np.ndarray[str]<br/>)<br/><br/>Output:<br/>X: np.ndarray[float32]<br/>(encoded)"]
 
       ME -->|Fitted encoder stored| APPLY_R
@@ -351,7 +351,7 @@ flowchart LR
       TC --> RV["ReplaceMissingWithValue.prepare_data_for_fit(<br/>X: Dict[str, np.ndarray],<br/>y: np.ndarray[str]<br/>) <br/><br/>Output:<br/>X: Dict[str, np.ndarray]<br/>y: np.ndarray[str] (missing made a category)<br/><br/>Missing categories in y replaced by marker"]
 
       RV -->|Continue with this output| LOOP_C{{"Loop through columns in X<br/><br/>If column is non-numeric:<br/>transform with PCAEncoder<br/><br/>If column is numeric:<br/>pass through unchanged"}}
-      
+
       LOOP_C -->|Categorical X| APPLY_C["PCAEncoder.transform(<br/>X: np.ndarray[str]<br/>)<br/><br/>Output:<br/>X: np.ndarray[float32]<br/>(encoded)"]
 
       PCA -->|Fitted encoder stored| APPLY_C
@@ -387,7 +387,7 @@ zoom:
 
 flowchart LR
       subgraph input
-            FEATURES[("Previously synthesised data<br/>X: pd.DataFrame<br/>Previously generated columns")] 
+            FEATURES[("Previously synthesised data<br/>X: pd.DataFrame<br/>Previously generated columns")]
       end
 
       FEATURES --> CMT["CartMethod.transform(<br/>X: pd.DataFrame<br/>)"]
@@ -432,7 +432,7 @@ zoom:
 
 flowchart LR
       subgraph input
-            FEATURES[("Previously synthesised data<br/>X: pd.DataFrame<br/>Previously generated columns")] 
+            FEATURES[("Previously synthesised data<br/>X: pd.DataFrame<br/>Previously generated columns")]
       end
 
       FEATURES --> CART["CartMethod.transform(<br/>X: pd.DataFrame<br/>)"]
