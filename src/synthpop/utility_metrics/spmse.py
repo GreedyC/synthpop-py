@@ -307,7 +307,7 @@ def pairwise_spmse(
     # Start calculations for preprocessing here
     o_df, s_df = _preprocess_columns(o_df, s_df, max_bins)
 
-    # Calculate joint frequency tables and s_pmse calculations below
+    # Calculate joint frequency tables and S_pMSE calculations below
     rows = []
 
     for col1, col2 in combinations_with_replacement(o_df.columns, 2):

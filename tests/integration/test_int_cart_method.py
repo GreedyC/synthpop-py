@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from synthpop.data_processing.missing_value_handling import (
+from synthpop.data_preparation.missing_value_handling import (
     MissingValuePredictor,
     ReplaceMissingWithValue,
 )
@@ -586,7 +586,7 @@ def test_tune_cart_disable_rare_categories_check():
     assert result[3] == y[3], "attribute disclosure for sample 3"
 
 
-def test_cart_method_floatingpoint_error():
+def test_cart_method_floating_point_error():
     """
     tests that no floating point errors are introduced by CART.
     Floating point errors are picked up by several utility metrics.

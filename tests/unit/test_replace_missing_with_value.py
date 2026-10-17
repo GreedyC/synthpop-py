@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from synthpop.data_processing.missing_value_handling import ReplaceMissingWithValue
+from synthpop.data_preparation.missing_value_handling import ReplaceMissingWithValue
 from synthpop.utils import str_dtype
 
 
@@ -148,7 +148,7 @@ def test_prepare_data_for_fit_validates_features(mocker):
     X = {"a": np.array([1, 2])}
     y = np.array(["x", np.nan], dtype=str_dtype)
     validate = mocker.patch(
-        "synthpop.data_processing.missing_value_handling._validate_2d_dict",
+        "synthpop.data_preparation.missing_value_handling._validate_2d_dict",
         return_value=(X, 2),
     )
 
