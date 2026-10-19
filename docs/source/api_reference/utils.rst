@@ -1,16 +1,16 @@
 Utilities
 =========
 
-.. _string-dtype:
-
-String arrays with missing values
----------------------------------
+This module contains utility functions used throughout synthpop-py.
 
 .. py:data:: synthpop.utils.str_dtype
 
-   A shared instance of ``numpy.dtypes.StringDType(na_object=np.nan)``:
-   NumPy's variable-width string dtype, configured to retain ``np.nan`` as a
-   missing value rather than turn it into the text ``"nan"``.
+   A shared instance of ``numpy.dtypes.StringDType(na_object=np.nan)``.
+
+.. _string-dtype:
+
+Examples
+--------
 
 With ``dtype=str``, a missing value becomes the string ``"nan"``. It can no
 longer be distinguished from a category whose label is literally ``"nan"``:
@@ -46,15 +46,3 @@ value:
 
 Converting ``fixed`` instead would not recover the missing value: its entries
 are already strings.
-
-Unlike fixed-width strings, ``str_dtype`` also retains longer labels assigned
-after the array is created:
-
->>> short = np.array(["cat"], dtype=str)
->>> short[0] = "giraffe"
->>> short.tolist()
-['gir']
->>> flexible = np.array(["cat"], dtype=str_dtype)
->>> flexible[0] = "giraffe"
->>> flexible.tolist()
-['giraffe']

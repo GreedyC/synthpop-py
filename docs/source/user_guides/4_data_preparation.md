@@ -156,7 +156,7 @@ This separation allows synthpop-py to reproduce both the generated values and th
 ### 4.2.1. Treating missing as category
 For categorical synthesis, missing values in the target are transformed into a valid categorical state before tree training using {class}`~synthpop.data_preparation.missing_value_handling.ReplaceMissingWithValue`.
 
-The example uses {data}`~synthpop.utils.str_dtype`, a NumPy variable-width string dtype configured with `np.nan` as its missing value. Unlike `dtype=str`, it preserves missing values instead of converting them to the category label `"nan"`. See {ref}`string-dtype` for examples of preserving missing values when creating an array or converting an object array with `astype`.
+The example uses {data}`~synthpop.utils.str_dtype`. Please see {ref}`string-dtype` for more information on this datatype.
 
 ```python
 >>> from synthpop.data_preparation import ReplaceMissingWithValue

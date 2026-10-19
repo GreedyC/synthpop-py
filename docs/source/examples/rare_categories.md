@@ -12,8 +12,6 @@ Although this example is deliberately constructed, similar situations can occur 
 ```
 ## Demonstration of the problem
 
-Here {data}`~synthpop.utils.str_dtype` is the categorical string dtype described in {ref}`string-dtype`. Casting numeric data to it makes the values categorical; it does not reduce their cardinality.
-
 Suppose the following happens:
 
 
@@ -43,6 +41,8 @@ X[0:3]
            ['1.0587285298838789']], dtype=StringDType(na_object=nan))
 
 
+
+Here {data}`~synthpop.utils.str_dtype` is the categorical string dtype described in {ref}`string-dtype`.
 
 Because we 'accidentally' cast the numerical array to strings, the predictor column is now categorical with unique values.
 
